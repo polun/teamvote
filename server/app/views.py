@@ -40,22 +40,22 @@ class Rests(Resource):
     def get(self):
         rests = [{
             'id': '1',
-            'name': '盖饭'
+            'name': '河南'
         }, {
             'id': '2',
-            'name': '三秦'
+            'name': '跳跳'
         }, {
             'id': '3',
-            'name': '热干面'
+            'name': '鹤壁'
         }, {
             'id': '4',
-            'name': '火烧'
+            'name': '四中'
         }, {
             'id': '5',
-            'name': '阳光100'
+            'name': '二班'
         }]
 
         return rests
 
-api.add_resource(Rests, '/api/rests')
-api.add_resource(Users, '/api/users')
+api.add_resource(Rests, '/api/v1/rests')
+api.add_resource(Users, '/api/v1/users')
