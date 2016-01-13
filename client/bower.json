@@ -1,25 +1,26 @@
 {
-    "name": "teamvote",
-    "homepage": "https://github.com/polun/teamvote",
-    "authors": [
-        "polun"
-    ],
-    "description": "",
-    "main": "",
-    "moduleType": [],
-    "license": "MIT",
-    "ignore": [
-        "**/.*",
-        "node_modules",
-        "bower_components",
-        "lib",
-        "test",
-        "tests"
-    ],
-    "dependencies": {
-        "angular": "angularjs#~1.4.8",
-        "bootstrap": "~3.3.6",
-        "restangular": "~1.5.1",
-        "angular-route": "~1.4.8"
-    }
+  "name": "teamvote",
+  "homepage": "https://github.com/polun/teamvote",
+  "authors": [
+    "polun"
+  ],
+  "description": "",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "lib",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "angularjs#~1.4.8",
+    "bootstrap": "~3.3.6",
+    "restangular": "~1.5.1",
+    "angular-route": "~1.4.8",
+    "underscore": "~1.8.3"
+  }
 }

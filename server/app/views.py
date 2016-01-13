@@ -5,7 +5,7 @@ from app import api, Resource
 from models import member, rest, vote, voteitem
 import json
 from bson import json_util
-from .forms import VoteCreateForm
+from flask import request
 
 '''
     餐馆
@@ -27,11 +27,13 @@ class Rests(Resource):
 class Votes(Resource):
     """投票"""
     def post(self):
-        voteForm = VoteCreateForm()
+        if not request.json or not 'selectedRestIds' in request.json:
+            abort(400)
+        
+        selectedRestIds = request.json.get('selectedRestIds')
+        selectedRests = rest.Rest.objects('_id' in selectedRestIds)
 
-        if not form.validate_on_submit():
-            return form.errors, 422
-        return { status: 'success' }, 201
+        return { 'selectedRestIds': selectedRestIds }, 201
 
         
 

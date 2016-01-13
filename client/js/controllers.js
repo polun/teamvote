@@ -1,5 +1,5 @@
 (function() {
-    TeamVote.controller('DesignController', function($scope, $timeout, Rests) {
+    TeamVote.controller('DesignController', function($scope, $timeout, Rests, Votes) {
         $scope.selectedRests = [];
 
         Rests.get().then(function(res) {
@@ -39,6 +39,11 @@
             console.log($scope.rests);
         };
         $scope.publish = function () {
+            selectedRestIds = _.map($scope.selectedRests, function (rest) {
+                return rest._id.$oid;
+            });
+            console.log(selectedRestIds);
+            Votes.post(selectedRestIds);
         };
     });
 })();
