@@ -4,7 +4,8 @@ window.TeamVote = angular.module('TeamVote', ['ngRoute', 'restangular'])
     var partialsDir = 'partials/';
     $routeProvider.
         when('/', {
-            templateUrl: partialsDir + 'vote.html'
+            templateUrl: partialsDir + 'vote.html',
+            controller: 'VoteController'
         }).
         when('/design', {
             templateUrl: partialsDir + 'design.html',

@@ -13,14 +13,29 @@
                 }
             };
         })
-        .factory('Votes', function($http, apiUrl) {
+        .factory('Votes', function($http, $q, apiUrl) {
             return {
-                post: function(selectedRestIds) {
+                get: function(voteId) {
+                    var dfr = $q.defer();
+                    $http.get(apiUrl.votes + '/' + voteId).then(function (res) {
+                        dfr.resolve(res);
+                    }, function (err) {
+                        dfr.reject(err);
+                    });
+
+                    return dfr.promise;
+                },
+                post: function(title, selectedRestIds) {
+                    var dfr = $q.defer();
                     $http.post(apiUrl.votes, {
+                        title: title,
                         selectedRestIds: selectedRestIds
                     }).then(function(res) {
                         console.log(res);
+                        dfr.resolve(res.data.newVoteId);
                     });
+
+                    return dfr.promise;
                 }
             };
         });

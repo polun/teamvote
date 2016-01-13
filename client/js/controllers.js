@@ -1,6 +1,7 @@
 (function() {
     TeamVote.controller('DesignController', function($scope, $timeout, Rests, Votes) {
         $scope.selectedRests = [];
+        $scope.name = null;
 
         Rests.get().then(function(res) {
             $scope.rests = res;
@@ -36,14 +37,19 @@
                 'id': '5',
                 'name': '球场'
             });
-            console.log($scope.rests);
         };
         $scope.publish = function () {
             selectedRestIds = _.map($scope.selectedRests, function (rest) {
                 return rest._id.$oid;
             });
-            console.log(selectedRestIds);
-            Votes.post(selectedRestIds);
+
+            Votes.post($scope.title, selectedRestIds);
         };
+    })
+    .controller('VoteController', function($scope, Votes) {
+        alert('zhang');
+        Votes.get('5696870e9ddd5674056547de').then(function (res) {
+            console.log(res);
+        });
     });
 })();
