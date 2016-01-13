@@ -1,8 +1,14 @@
-def initDB():
-    Rest(name='zhangzhenqiang', remark='zanwu').save()
-    Rest(name='zhangwanxia', remark='zanwu').save()
-    Rest(name='zhangsiyuan', remark='zanwu').save()
+from models import rest,member
+from mongoengine import *
 
-    Member(name='lusuo', nickname='ls').save()
-    Member(name='huyulin', nickname='hyl').save()
-    Member(name='yusha', nickname='ys').save()
+def initDB():
+    connect('teamvote')
+    rest.Rest(name='zhangzhenqiang', remark='zanwu').save()
+    rest.Rest(name='zhangwanxia', remark='zanwu').save()
+    rest.Rest(name='zhangsiyuan', remark='zanwu').save()
+
+    member.Member(name='lusuo', nickname='ls').save()
+    member.Member(name='huyulin', nickname='hyl').save()
+    member.Member(name='yusha', nickname='ys').save()
+
+# initDB()

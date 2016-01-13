@@ -3,8 +3,11 @@
         $scope.selectedRests = [];
 
         Rests.get().then(function(res) {
+            res = JSON.parse(res);
+            console.log(res);
             $scope.rests = res;
         });
+
         $scope.select = function(rest) {
             $scope.selectedRests.push(rest);
         };

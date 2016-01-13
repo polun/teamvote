@@ -1,5 +1,5 @@
 (function(argument) {
-    var baseUrl = 'http://192.168.1.26:5000/api/v1/'
+    var baseUrl = 'http://127.0.0.1:5000/api/v1/'
     TeamVote.constant('apiUrl', {
         rests: baseUrl + 'rests'
     });
