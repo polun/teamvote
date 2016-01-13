@@ -12,5 +12,11 @@
                 return dfr.promise;
             }
         };
+    })
+    .factory('Votes', function($http) {
+        return {
+            post: function () {
+            }
+        };
     });
 })();

@@ -3,7 +3,7 @@
         <div class="col-md-3">
             <h3>候选</h3>
             <ul class="list-group">
-                <li ng-repeat="rest in rests" style="cursor:pointer" class="list-group-item" ng-click="select(rest)">
+                <li ng-repeat="rest in rests" style="cursor:pointer" class="list-group-item" ng-class="{'list-group-item-success':rest.selected}" ng-click="select(rest)">
                     <span class="badge">14</span> {{ rest.name }}
                 </li>
                 <li class="list-group-item">
@@ -15,14 +15,14 @@
             <h3>已选择</h3>
             <h4 ng-if="selectedRests.length<=0"></h4>
             <ul class="list-group">
-
-                <li ng-repeat="rest in selectedRests" class="list-group-item">
+                <li ng-repeat="rest in selectedRests" class="list-group-item list-group-item-success">
                     <i style="cursor:pointer" class="glyphicon glyphicon-remove" ng-click="removeRest(rest)"></i> {{ rest.name }}
                 </li>
             </ul>
-            <button class="btn btn-primary" ng-if="selectedRests.length>0">发布</button>
+            <button class="btn btn-primary" ng-if="selectedRests.length>0" ng-click="publish()">发布</button>
         </div>
     </div>
+    <div ng-if="isAlert" class="alert alert-danger" role="alert">{{ alertMessage }}</div>
     <hr>
     <div class="row">
         <div class="col-md-12">
