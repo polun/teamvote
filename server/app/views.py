@@ -29,9 +29,10 @@ class Votes(Resource):
     def get(self, voteId):
         searched_vote  = json.loads(vote.Vote.objects().get(id=voteId).to_json())
         candidateIds = [item['$oid'] for item in searched_vote['candidaterests']]
-        searchedRests = json.loads(rest.Rest.objects(id in candidateIds).to_json())
+        searchedRests = json.loads(rest.Rest.objects(id__in=candidateIds).to_json())
+        print '-'*10
+        print searchedRests
         searched_vote['candidaterests'] = searchedRests
-
         return searched_vote, 201
 
 
@@ -43,9 +44,7 @@ class CreateVote(Resource):
         title = request.json.get('title')
         selectedRestIds = request.json.get('selectedRestIds')
         selectedRestIdList = [ObjectId(item) for item in selectedRestIds]
-        selectedRests = rest.Rest.objects(id in selectedRestIdList)
-
-        print selectedRests
+        selectedRests = rest.Rest.objects(id__in=selectedRestIdList)
 
         newVote = vote.Vote(title=title, candidaterests=selectedRests)
         newVoteId = newVote.save()

@@ -46,9 +46,11 @@
             Votes.post($scope.title, selectedRestIds);
         };
     })
-    .controller('VoteController', function($scope, Votes) {
-        Votes.get('5697098a713de6097c298ebc').then(function (res) {
-            console.log(res);
+    .controller('VoteController', function($scope, $routeParams, Votes) {
+        var voteId = $routeParams.voteId;
+        $scope.name = 'ls';
+        Votes.get(voteId).then(function (res) {
+            $scope.vote = res.data;
         });
     });
 })();

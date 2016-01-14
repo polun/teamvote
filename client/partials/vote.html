@@ -1,19 +1,13 @@
 <div class="jumbotron">
-    <a href="#/design">设计</a>
     <div class="row">
         <div class="col-md-12">
-            <h3>候选</h3>
-            <ul class="list-group">
-                <li class="list-group-item cursor">
-                    Summer
-                </li>
-                <li class="list-group-item cursor">
-                    Winter
-                </li>
-                <li class="list-group-item cursor">
-                    Spring
-                </li>
-            </ul>
+            <h4>{{ vote.title }}</h4>
+            <div class="radio" ng-repeat='candidate in vote.candidaterests'>
+                <label>
+                    <input type="radio" name="optradio">{{ candidate.name }}</label>
+            </div>
+            <button class="btn btn-primary">投票</button>
         </div>
     </div>
+    <a href="#/design">设计</a>
 </div>
