@@ -39,19 +39,36 @@ class Votes(Resource):
 class CreateVote(Resource):
     """设计投票"""
     def post(self):
-        if not request.json or not 'selectedRestIds' in request.json or not 'title' in request.json:
+        if not request.json or not 'selectedRestIds' in request.json or \
+            not 'title' in request.json:
             return {}, 400
         title = request.json.get('title')
         selectedRestIds = request.json.get('selectedRestIds')
         selectedRestIdList = [ObjectId(item) for item in selectedRestIds]
-        selectedRests = rest.Rest.objects(id__in=selectedRestIdList)
+        # selectedRests = rest.Rest.objects(id__in=selectedRestIdList)
 
-        newVote = vote.Vote(title=title, candidaterests=selectedRests)
+        newVote = vote.Vote(title=title, candidaterests=selectedRestIdList)
         newVoteId = newVote.save()
 
         return { 'newVoteId': json.loads(newVoteId.to_json())['_id']['$oid'] }, 201
+
+class MakeVote(Resource):
+    def post(self):
+        if not request.json or not 'memberId' in request.json or \
+            'voteId' not in request.json or 'restId' not in request.json:
+            return {}, 400
+
+        voteId = request.json.get('voteId')
+        restId = request.json.get('restId')
+        memberId = request.json.get('memberId');
+
+        item = voteitem.VoteItem(vote=voteId,rest=restId,member=memberId)
+        item.save()
+
+        return { 'voteId': voteId }, 201
 
 api.add_resource(Rests, '/api/v1/rests')
 api.add_resource(Members, '/api/v1/members')
 api.add_resource(Votes, '/api/v1/votes/<voteId>')
 api.add_resource(CreateVote, '/api/v1/votes')
+api.add_resource(MakeVote, '/api/v1/voteitem')

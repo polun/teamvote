@@ -17,9 +17,9 @@
             return {
                 get: function(voteId) {
                     var dfr = $q.defer();
-                    $http.get(apiUrl.votes + '/' + voteId).then(function (res) {
+                    $http.get(apiUrl.votes + '/' + voteId).then(function(res) {
                         dfr.resolve(res);
-                    }, function (err) {
+                    }, function(err) {
                         dfr.reject(err);
                     });
 
@@ -33,6 +33,25 @@
                     }).then(function(res) {
                         console.log(res);
                         dfr.resolve(res.data.newVoteId);
+                    });
+
+                    return dfr.promise;
+                }
+            };
+        })
+        .factory('VoteItems', function($q, $http, apiUrl) {
+            return {
+                post: function(voteId, restId, memberId) {
+                    console.log(voteId,restId, memberId);
+                    var dfr = $q.defer();
+                    $http.post(apiUrl.voteItem, {
+                        voteId: voteId,
+                        restId: restId,
+                        memberId: memberId
+                    }).then(function(res) {
+                        dfr.resolve(res);
+                    }, function(err) {
+                        dfr.reject(err);
                     });
 
                     return dfr.promise;

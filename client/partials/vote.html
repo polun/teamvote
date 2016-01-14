@@ -4,9 +4,9 @@
             <h4>{{ vote.title }}</h4>
             <div class="radio" ng-repeat='candidate in vote.candidaterests'>
                 <label>
-                    <input type="radio" name="optradio">{{ candidate.name }}</label>
+                    <input type="radio" name="optradio" ng-click="chooseRest(candidate._id.$oid)">{{ candidate.name }}</label>
             </div>
-            <button class="btn btn-primary">投票</button>
+            <button class="btn btn-primary" ng-click="makeVote()">投票</button>
         </div>
     </div>
     <a href="#/design">设计</a>
