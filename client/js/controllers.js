@@ -47,8 +47,7 @@
         };
     })
     .controller('VoteController', function($scope, Votes) {
-        alert('zhang');
-        Votes.get('5696870e9ddd5674056547de').then(function (res) {
+        Votes.get('5697098a713de6097c298ebc').then(function (res) {
             console.log(res);
         });
     });
