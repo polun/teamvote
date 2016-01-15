@@ -42,12 +42,27 @@
         .factory('VoteItems', function($q, $http, apiUrl) {
             return {
                 post: function(voteId, restId, memberId) {
-                    console.log(voteId,restId, memberId);
+                    console.log(voteId, restId, memberId);
                     var dfr = $q.defer();
                     $http.post(apiUrl.voteItem, {
                         voteId: voteId,
                         restId: restId,
                         memberId: memberId
+                    }).then(function(res) {
+                        dfr.resolve(res);
+                    }, function(err) {
+                        dfr.reject(err);
+                    });
+
+                    return dfr.promise;
+                }
+            };
+        })
+        .factory('Members', function($q, $http, apiUrl) {
+            return {
+                get: function(nickname) {
+                    var dfr = $q.defer();
+                    $http.get(apiUrl.member + '/' + nickname, {
                     }).then(function(res) {
                         dfr.resolve(res);
                     }, function(err) {

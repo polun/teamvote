@@ -19,4 +19,5 @@ def addRests():
     rest.Rest(name=u'Sunny100', remark='zanwu').save()
     rest.Rest(name=u'LaMian', remark='zanwu').save()
 
+# initDB()
 # addRests()

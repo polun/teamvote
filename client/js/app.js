@@ -1,5 +1,5 @@
 /* global angular */
-window.TeamVote = angular.module('TeamVote', ['ngRoute', 'restangular'])
+window.TeamVote = angular.module('TeamVote', ['ngRoute', 'ngCookies', 'restangular'])
 .config(function($routeProvider, RestangularProvider){
     var partialsDir = 'partials/';
     $routeProvider.

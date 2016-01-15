@@ -46,11 +46,17 @@
                 Votes.post($scope.title, selectedRestIds);
             };
         })
-        .controller('VoteController', function($scope, $routeParams, Votes, VoteItems) {
+        .controller('VoteController', function($scope, $routeParams, $cookies, Votes, VoteItems,
+            Members) {
+
+            var nicknameKey = 'nickname',
+                nickname = $cookies.get(nicknameKey);
+            if (!nickname) {
+                $('#nicknameModal').modal('show');
+            }
+
             var voteId = $routeParams.voteId;
-            $scope.name = 'ls';
             Votes.get(voteId).then(function(res) {
-                console.log(res.data);
                 $scope.vote = res.data;
             });
 
@@ -67,6 +73,19 @@
                         console.log(err);
                     });
                 };
+            };
+
+            $scope.enterNickname = function() {
+                var nickname = $('#recipient-name').val();
+
+                Members.get(nickname).then(function(res) {
+                    console.log(res);
+                    if (res.data) {
+                        $cookies.put(nicknameKey, nickname);
+                        $scope.memberId = res.data.member._id.$oid;
+                        $('#nicknameModal').modal('hide');
+                    };
+                });
             };
         });
 })();

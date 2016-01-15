@@ -3,6 +3,7 @@
     TeamVote.constant('apiUrl', {
         rests: baseUrl + 'rests',
         votes: baseUrl + 'votes',
-        voteItem: baseUrl + 'voteitem'
+        voteItem: baseUrl + 'voteitem',
+        member: baseUrl + 'member'
     });
 })();

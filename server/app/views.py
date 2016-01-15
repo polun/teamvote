@@ -67,8 +67,17 @@ class MakeVote(Resource):
 
         return { 'voteId': voteId }, 201
 
+class Member(Resource):
+    def get(self, nickname):
+        if not nickname:
+            return {}, 400
+
+        mem = member.Member.objects().get(nickname=nickname).to_json()
+        return { 'member': json.loads(mem)}
+
 api.add_resource(Rests, '/api/v1/rests')
 api.add_resource(Members, '/api/v1/members')
 api.add_resource(Votes, '/api/v1/votes/<voteId>')
 api.add_resource(CreateVote, '/api/v1/votes')
 api.add_resource(MakeVote, '/api/v1/voteitem')
+api.add_resource(Member, '/api/v1/member/<nickname>')
