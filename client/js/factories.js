@@ -66,12 +66,15 @@
             }
 
             function getByCondition(voteId, memberId) {
+                var dfr = $q.defer();
                 $http.get(apiUrl.voteItem + '/' + voteId + '/' + memberId)
-                    .then(function (res) {
-                        console.log(res);
+                    .then(function (res, status) {
+                        dfr.resolve(res);
                     }, function (err) {
-                        console.log(err);
+                        dfr.reject(err);
                     });
+
+                return dfr.promise;
             }
         })
         .factory('Members', function($q, $http, apiUrl) {

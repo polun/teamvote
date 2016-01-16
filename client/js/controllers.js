@@ -1,5 +1,5 @@
 (function() {
-    TeamVote.controller('DesignController', function($scope, $timeout, Rests, Votes) {
+    TeamVote.controller('DesignController', function($scope, $timeout, $location, Rests, Votes) {
             $scope.selectedRests = [];
             $scope.name = null;
 
@@ -46,13 +46,12 @@
                 Votes.post($scope.title, selectedRestIds);
             };
         })
-        .controller('VoteController', function($scope, $routeParams, $cookies, Votes, VoteItems,
+        .controller('VoteController', function($scope, $stateParams, $cookies, $location, Votes, VoteItems,
             Members) {
-
             var vm = this,
                 memberIdKey = 'memberId',
                 memberNameKey = 'memberName',
-                voteId = $routeParams.voteId;
+                voteId = $stateParams.voteId;
 
             vm.member = {
                 id: $cookies.get(memberIdKey),
@@ -68,15 +67,19 @@
             activate();
 
             function activate() {
-                $cookies.put(memberIdKey);
+                // $cookies.put(memberIdKey);
                 if (!vm.member.id || !vm.member.name) {
                     $('#memberModal').modal('show');
                 } else {
                     checkIsVoted();
-                    return Votes.get(voteId).then(function(res) {
-                        vm.vote = res.data;
-                    });
+                    loadVote();
                 }
+            }
+
+            function loadVote() {
+                Votes.get(voteId).then(function(res) {
+                    vm.vote = res.data;
+                });
             }
 
             function chooseRest(restId) {
@@ -107,13 +110,19 @@
                         $cookies.put(memberIdKey, vm.member.id);
                         $cookies.put(memberNameKey, vm.member.name);
                         $('#memberModal').modal('hide');
+                        loadVote();
                     };
                 });
             }
 
             function checkIsVoted() {
-                console.log(vm.member);
-                VoteItems.getByCondition(voteId, vm.member.id);
+                VoteItems.getByCondition(voteId, vm.member.id).then(function(res) {
+                    if (res.data) {
+                        $location.path('/result/zhang');
+                    };
+                }, function(err) {
+                    console.log(err);
+                });
             }
         });
 })();
