@@ -4,6 +4,6 @@
         rests: baseUrl + 'rests',
         votes: baseUrl + 'votes',
         voteItem: baseUrl + 'voteitem',
-        member: baseUrl + 'member'
+        member: baseUrl + 'member',
     });
 })();

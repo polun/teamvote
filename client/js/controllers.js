@@ -49,43 +49,71 @@
         .controller('VoteController', function($scope, $routeParams, $cookies, Votes, VoteItems,
             Members) {
 
-            var nicknameKey = 'nickname',
-                nickname = $cookies.get(nicknameKey);
-            if (!nickname) {
-                $('#nicknameModal').modal('show');
+            var vm = this,
+                memberIdKey = 'memberId',
+                memberNameKey = 'memberName',
+                voteId = $routeParams.voteId;
+
+            vm.member = {
+                id: $cookies.get(memberIdKey),
+                name: $cookies.get(memberNameKey)
+            };
+            vm.choosenRestId = null;
+            vm.vote = {};
+
+            vm.chooseRest = chooseRest;
+            vm.makeVote = makeVote;
+            vm.enterNickname = enterNickname;
+
+            activate();
+
+            function activate() {
+                $cookies.put(memberIdKey);
+                if (!vm.member.id || !vm.member.name) {
+                    $('#memberModal').modal('show');
+                } else {
+                    checkIsVoted();
+                    return Votes.get(voteId).then(function(res) {
+                        vm.vote = res.data;
+                    });
+                }
             }
 
-            var voteId = $routeParams.voteId;
-            Votes.get(voteId).then(function(res) {
-                $scope.vote = res.data;
-            });
+            function chooseRest(restId) {
+                vm.choosenRestId = restId;
+            }
 
-            $scope.chooseRest = function(restId) {
-                $scope.choosenRestId = restId;
-            };
-
-            $scope.makeVote = function() {
-                var memberId = '5697092b713de6067814ab65';
-                if ($scope.choosenRestId) {
-                    VoteItems.post(voteId, $scope.choosenRestId, memberId).then(function(res) {
+            function makeVote() {
+                if (vm.choosenRestId && vm.member) {
+                    VoteItems.post(voteId, vm.choosenRestId, vm.member.id).then(function(res) {
                         console.log(res);
                     }, function(err) {
                         console.log(err);
                     });
-                };
+                } else {
+                    console.log('zhag');
+                }
             };
 
-            $scope.enterNickname = function() {
+            function enterNickname() {
                 var nickname = $('#recipient-name').val();
 
                 Members.get(nickname).then(function(res) {
-                    console.log(res);
                     if (res.data) {
-                        $cookies.put(nicknameKey, nickname);
-                        $scope.memberId = res.data.member._id.$oid;
-                        $('#nicknameModal').modal('hide');
+                        vm.member = {
+                            id: res.data.member._id.$oid,
+                            name: res.data.member.name
+                        };
+                        $cookies.put(memberIdKey, vm.member.id);
+                        $cookies.put(memberNameKey, vm.member.name);
+                        $('#memberModal').modal('hide');
                     };
                 });
-            };
+            }
+
+            function checkIsVoted() {
+                console.log(vm.member);
+                VoteItems.getByCondition(voteId, vm.member.id);
+            }
         });
 })();
