@@ -68,9 +68,13 @@
             function getByCondition(voteId, memberId) {
                 var dfr = $q.defer();
                 $http.get(apiUrl.voteItem + '/' + voteId + '/' + memberId)
-                    .then(function (res, status) {
-                        dfr.resolve(res);
-                    }, function (err) {
+                    .then(function(res) {
+                        if (status.status !== 200) {
+                            dfr.resolve(null);
+                        } else {
+                            dfr.resolve(res.data);
+                        }
+                    }, function(err) {
                         dfr.reject(err);
                     });
 
