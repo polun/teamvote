@@ -102,9 +102,38 @@ class VoteItem(Resource):
 
         return result, statusCode
 
+
+class VoteResult(Resource):
+
+    def get(self, voteId):
+        def sortBySum(n):
+            return -1 * n['sum']
+
+        if not voteId:
+            return '没有voteId', 400
+
+        result = []
+        statusCode = 200
+        try:
+            aggregationRests = voteitem.VoteItem.objects.filter(vote=ObjectId(voteId)).aggregate(
+                {'$group': {'_id': '$rest', 'sum': {'$sum': 1}}})
+
+            for rt in aggregationRests:
+                r = json.loads(rest.Rest.objects.only(
+                    'name').get(id=rt['_id']).to_json())
+                result.append({'rest': r['name'], 'sum': rt['sum']})
+            result = sorted(result, key=sortBySum)
+
+        except DoesNotExist, e:
+            statusCode = 204
+
+        return result, statusCode
+
+
 api.add_resource(Rests, '/api/v1/rests')
 api.add_resource(Votes, '/api/v1/votes/<voteId>')
 api.add_resource(CreateVote, '/api/v1/votes')
 api.add_resource(MakeVote, '/api/v1/voteitem')
 api.add_resource(VoteItem, '/api/v1/voteitem/<voteId>/<memberId>')
 api.add_resource(Member, '/api/v1/member/<nickname>')
+api.add_resource(VoteResult, '/api/v1/voteresult/<voteId>')

@@ -5,5 +5,6 @@
         votes: baseUrl + 'votes',
         voteItem: baseUrl + 'voteitem',
         member: baseUrl + 'member',
+        voteresult: baseUrl + 'voteresult'
     });
 })();
