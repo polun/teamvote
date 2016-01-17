@@ -46,7 +46,8 @@
         .factory('VoteItems', function($q, $http, apiUrl) {
             return {
                 post: post,
-                getByCondition: getByCondition
+                getByCondition: getByCondition,
+                getVoteResult: getVoteResult
             };
 
             function post(voteId, restId, memberId) {
@@ -70,7 +71,7 @@
                 $http.get(apiUrl.voteItem + '/' + voteId + '/' + memberId)
                     .then(function(res) {
                         if (status.status !== 200) {
-                            dfr.resolve(null);
+                            dfr.resolve();
                         } else {
                             dfr.resolve(res.data);
                         }
@@ -78,6 +79,20 @@
                         dfr.reject(err);
                     });
 
+                return dfr.promise;
+            }
+
+            function getVoteResult(voteId) {
+                var dfr = $q.defer();
+                $http.get(apiUrl.voteresult + '/' + voteId).then(function(res) {
+                    if (res.status !== 200) {
+                        dfr.resolve();
+                    } else {
+                        dfr.resolve(res.data);
+                    }
+                }, function(err) {
+                    console.log(err);
+                });
                 return dfr.promise;
             }
         })

@@ -1,6 +1,6 @@
 /* global angular */
-window.TeamVote = angular.module('TeamVote', ['ui.router', 'ngCookies', 'restangular'])
-    .config(function($stateProvider, $urlRouterProvider, RestangularProvider) {
+window.TeamVote = angular.module('TeamVote', ['ui.router', 'ngCookies', 'highcharts-ng'])
+    .config(function($stateProvider, $urlRouterProvider) {
         var partialsDir = 'partials/';
 
         $stateProvider
@@ -27,20 +27,4 @@ window.TeamVote = angular.module('TeamVote', ['ui.router', 'ngCookies', 'restang
             });
 
         $urlRouterProvider.otherwise('/index');
-
-        // $routeProvider.
-        // when('/vote/:voteId', {
-        //     templateUrl: partialsDir + 'vote.html',
-        //     controller: 'VoteController',
-        //     controllerAs: 'vm'
-        // }).
-        // when('/design', {
-        //     templateUrl: partialsDir + 'design.html',
-        //     controller: 'DesignController'
-        // }).
-        // when('/result', {
-        //     templateUrl: partialsDir + 'result.html',
-        //     controller: 'ResultController',
-        //     controllerAs: 'vm'
-        // });
     });
