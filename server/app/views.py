@@ -7,6 +7,7 @@ import json
 from bson import json_util
 from flask import request
 from bson.objectid import ObjectId
+from mongoengine.queryset import DoesNotExist
 
 
 class Rests(Resource):
@@ -24,14 +25,20 @@ class Rests(Resource):
 class Votes(Resource):
 
     def get(self, voteId):
-        searched_vote = json.loads(
-            vote.Vote.objects().get(id=voteId).to_json())
-        candidateIds = [item['$oid']
-                        for item in searched_vote['candidaterests']]
-        searchedRests = json.loads(
-            rest.Rest.objects(id__in=candidateIds).to_json())
-        searched_vote['candidaterests'] = searchedRests
-        return searched_vote, 201
+        searched_vote = None
+        statusCode = 200
+
+        try:
+            searched_vote = json.loads(
+                vote.Vote.objects().get(id=voteId).to_json())
+            candidateIds = [item['$oid']
+                            for item in searched_vote['candidaterests']]
+            searchedRests = json.loads(
+                rest.Rest.objects(id__in=candidateIds).to_json())
+            searched_vote['candidaterests'] = searchedRests
+        except DoesNotExist, e:
+            statusCode = 204
+        return searched_vote, statusCode
 
 
 class CreateVote(Resource):
@@ -44,7 +51,6 @@ class CreateVote(Resource):
         title = request.json.get('title')
         selectedRestIds = request.json.get('selectedRestIds')
         selectedRestIdList = [ObjectId(item) for item in selectedRestIds]
-        # selectedRests = rest.Rest.objects(id__in=selectedRestIdList)
 
         newVote = vote.Vote(title=title, candidaterests=selectedRestIdList)
         newVoteId = newVote.save()
@@ -85,15 +91,16 @@ class VoteItem(Resource):
         if not voteId or not memberId:
             return 'voteId或memberId不能为空', 400
 
-        # item = voteitem.VoteItem.objects().get(vote=voteId,
-        # member=memberId).to_json()
         item = voteitem.VoteItem.objects()
-        if not item:
-            print 'empty'
-            return {}, 204
-        else:
-            print 'no empty'
-            return json.loads(item.get(vote=voteId, member=memberId).to_json()), 200
+        result = None
+        statusCode = 200
+        try:
+            result = json.loads(
+                item.get(vote=voteId, member=memberId).to_json()), 200
+        except DoesNotExist, e:
+            result = 204
+
+        return result, statusCode
 
 api.add_resource(Rests, '/api/v1/rests')
 api.add_resource(Votes, '/api/v1/votes/<voteId>')
