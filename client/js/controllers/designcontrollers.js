@@ -52,7 +52,6 @@
         };
 
         function publish() {
-            console.log(vm.title);
             if (vm.title.trim()) {
                 var selectedRestIds = _.map(vm.selectedRests, function(rest) {
                     return rest._id.$oid;

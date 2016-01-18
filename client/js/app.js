@@ -8,20 +8,30 @@ window.TeamVote = angular.module('TeamVote', ['ui.router', 'ngCookies', 'highcha
                 url: '/index',
                 templateUrl: partialsDir + 'main.html'
             })
+            .state('votes', {
+                url: '/votes',
+                cache: false,
+                templateUrl: partialsDir + 'votes.html',
+                controller: 'VotesController',
+                controllerAs: 'vm'
+            })
             .state('vote', {
                 url: '/vote/:voteId',
+                cache: false,
                 templateUrl: partialsDir + 'vote.html',
                 controller: 'VoteController',
                 controllerAs: 'vm'
             })
             .state('design', {
                 url: '/design',
+                cache: false,
                 templateUrl: partialsDir + 'design.html',
                 controller: 'DesignController',
                 controllerAs: 'vm'
             })
             .state('result', {
                 url: '/result/:voteId',
+                cache: false,
                 templateUrl: partialsDir + 'result.html',
                 controller: 'ResultController',
                 controllerAs: 'vm'

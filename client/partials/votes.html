@@ -1,0 +1,12 @@
+<div class="row">
+    <div class="col-md-12">
+        <a href="#/design" class="btn btn-primary">添加</a>
+        <hr>
+        <table class="table table-responsive table-hover table-bordered">
+            <tr ng-repeat="vote in vm.votes">
+                <td><a href="#/result/{{vote._id.$oid}}">{{vote.title}}</a></td>
+                <td>2016年1月18日23:23</td>
+            </tr>
+        </table>
+    </div>
+</div>

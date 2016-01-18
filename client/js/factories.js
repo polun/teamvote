@@ -16,7 +16,8 @@
         .factory('Votes', function($http, $q, apiUrl) {
             return {
                 get: get,
-                post: post
+                post: post,
+                getAll: getAll
             };
 
             function get(voteId) {
@@ -41,6 +42,20 @@
                     dfr.reject(err);
                 });
 
+                return dfr.promise;
+            }
+
+            function getAll() {
+                var dfr = $q.defer();
+                $http.get(apiUrl.allVotes).then(function(res) {
+                    if (res.status === 200) {
+                        dfr.resolve(res.data);
+                    } else {
+                        defer.resolve();
+                    }
+                }, function(err) {
+                    dfr.reject(err);
+                });
                 return dfr.promise;
             }
         })
@@ -85,7 +100,7 @@
 
             function getVoteResult(voteId) {
                 var dfr = $q.defer();
-                $http.get(apiUrl.voteresult + '/' + voteId).then(function(res) {
+                $http.get(apiUrl.voteResult + '/' + voteId).then(function(res) {
                     if (res.status !== 200) {
                         dfr.resolve();
                     } else {
