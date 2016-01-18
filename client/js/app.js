@@ -18,6 +18,7 @@ window.TeamVote = angular.module('TeamVote', ['ui.router', 'ngCookies', 'highcha
                 url: '/design',
                 templateUrl: partialsDir + 'design.html',
                 controller: 'DesignController',
+                controllerAs: 'vm'
             })
             .state('result', {
                 url: '/result/:voteId',

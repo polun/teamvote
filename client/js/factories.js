@@ -36,8 +36,9 @@
                     title: title,
                     selectedRestIds: selectedRestIds
                 }).then(function(res) {
-                    console.log(res);
                     dfr.resolve(res.data.newVoteId);
+                }, function(err) {
+                    dfr.reject(err);
                 });
 
                 return dfr.promise;
