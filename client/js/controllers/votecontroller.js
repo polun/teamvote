@@ -21,7 +21,7 @@
         activate();
 
         function activate() {
-            // $cookies.put(memberIdKey);
+            $cookies.put(memberIdKey);
             if (!vm.member.id || !vm.member.name) {
                 $('#memberModal').modal('show');
             } else {
