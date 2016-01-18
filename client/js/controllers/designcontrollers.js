@@ -1,49 +1,68 @@
 (function() {
-    TeamVote.controller('DesignController', function($scope, $timeout, $location, Rests, Votes) {
-            $scope.selectedRests = [];
-            $scope.name = null;
+    TeamVote.controller('DesignController', function($timeout, $location, Rests, Votes) {
+        var vm = this;
+        vm.selectedRests = [];
+        vm.name = null;
 
+        activate();
+        vm.select = select;
+        vm.removeRest = removeRest;
+        vm.newRest = newRest;
+        vm.publish = publish;
+
+        function activate() {
             Rests.get().then(function(res) {
-                $scope.rests = res;
+                vm.rests = res;
             });
+        }
 
-            function showAlert(msg) {
-                $scope.isAlert = true;
-                $scope.alertMessage = msg;
+        function showAlert(msg) {
+            vm.isAlert = true;
+            vm.alertMessage = msg;
 
-                $timeout(function() {
-                    $scope.isAlert = false;
-                    $scope.alertMessage = '';
-                }, 3000);
+            $timeout(function() {
+                vm.isAlert = false;
+                vm.alertMessage = '';
+            }, 3000);
+        }
+
+
+        function select(rest) {
+            if (!rest.selected) {
+                rest.selected = true;
+                vm.selectedRests.push(rest);
+            } else {
+                showAlert(rest.name + '已经选过了!!!');
             }
+        }
 
-            $scope.select = function(rest) {
-                if (!rest.selected) {
-                    rest.selected = true;
-                    $scope.selectedRests.push(rest);
-                } else {
-                    showAlert(rest.name + '已经选过了!!!');
-                }
+        function removeRest(rest) {
+            if (vm.selectedRests.length > 0) {
+                var index = vm.selectedRests.indexOf(rest);
+                vm.selectedRests[index].selected = false;
+                vm.selectedRests.splice(index, 1);
             };
-            $scope.removeRest = function(rest) {
-                if ($scope.selectedRests.length > 0) {
-                    var index = $scope.selectedRests.indexOf(rest);
-                    $scope.selectedRests[index].selected = false;
-                    $scope.selectedRests.splice(index, 1);
-                };
-            };
-            $scope.newRest = function() {
-                $scope.rests.push({
-                    'id': '5',
-                    'name': '球场'
-                });
-            };
-            $scope.publish = function() {
-                selectedRestIds = _.map($scope.selectedRests, function(rest) {
+        }
+
+        function newRest() {
+            vm.rests.push({
+                'id': '5',
+                'name': '球场'
+            });
+        };
+
+        function publish() {
+            if (vm.title.trim()) {
+                var selectedRestIds = _.map(vm.selectedRests, function(rest) {
                     return rest._id.$oid;
                 });
 
-                Votes.post($scope.title, selectedRestIds);
-            };
-        });
+                Votes.post(vm.title, selectedRestIds).then(function (res) {
+                    console.log(res);
+                });
+            } else {
+                showAlert('名称不能为空！')
+            }
+        }
+    });
 })();

@@ -129,9 +129,14 @@ class VoteResult(Resource):
 
         return result, statusCode
 
+class AllVotes(Resource):
+    def get(self):
+        allVotes = json.loads(vote.Vote.objects().to_json())
+        return allVotes, 200
 
 api.add_resource(Rests, '/api/v1/rests')
 api.add_resource(Votes, '/api/v1/votes/<voteId>')
+api.add_resource(AllVotes, '/api/v1/allvotes')
 api.add_resource(CreateVote, '/api/v1/votes')
 api.add_resource(MakeVote, '/api/v1/voteitem')
 api.add_resource(VoteItem, '/api/v1/voteitem/<voteId>/<memberId>')

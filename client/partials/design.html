@@ -1,18 +1,19 @@
 <div class="jumbotron">
     <div class="row">
         <div class="col-md-12">
-            名称: <input type="text" ng-model="title">
+            名称:
+            <input type="text" ng-model="vm.title">
         </div>
     </div>
     <div class="row">
         <div class="col-md-3">
             <h3>候选</h3>
             <ul class="list-group">
-                <li ng-repeat="rest in rests" style="cursor:pointer" class="list-group-item" ng-class="{'list-group-item-success':rest.selected}" ng-click="select(rest)">
+                <li ng-repeat="rest in vm.rests" style="cursor:pointer" class="list-group-item" ng-class="{'list-group-item-success':rest.selected}" ng-click="vm.select(rest)">
                     <span class="badge">14</span> {{ rest.name }}
                 </li>
                 <li class="list-group-item">
-                    <button class="btn btn-primary" ng-click="newRest()">新增</button>
+                    <button class="btn btn-primary" ng-click="vm.newRest()">新增</button>
                 </li>
             </ul>
         </div>
@@ -20,17 +21,13 @@
             <h3>已选择</h3>
             <h4 ng-if="selectedRests.length<=0"></h4>
             <ul class="list-group">
-                <li ng-repeat="rest in selectedRests" class="list-group-item list-group-item-success">
-                    <i style="cursor:pointer" class="glyphicon glyphicon-remove" ng-click="removeRest(rest)"></i> {{ rest.name }}
+                <li ng-repeat="rest in vm.selectedRests" class="list-group-item list-group-item-success">
+                    <i style="cursor:pointer" class="glyphicon glyphicon-remove" ng-click="vm.removeRest(rest)"></i> {{ rest.name }}
                 </li>
             </ul>
-            <button class="btn btn-primary" ng-if="selectedRests.length>0" ng-click="publish()">发布</button>
+            <button class="btn btn-primary" ng-if="vm.selectedRests.length>0" ng-click="vm.publish()">发布</button>
         </div>
     </div>
-    <div ng-if="isAlert" class="alert alert-danger" role="alert">{{ alertMessage }}</div>
+    <div ng-if="vm.isAlert" class="alert alert-danger" role="alert">{{ vm.alertMessage }}</div>
     <hr>
-    <div class="row">
-        <div class="col-md-12">
-        </div>
-    </div>
 </div>
