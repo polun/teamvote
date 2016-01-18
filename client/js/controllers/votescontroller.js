@@ -9,7 +9,7 @@
             Votes.getAll().then(function(data) {
                 if (data) {
                     vm.votes = data;
-                };
+                }
             });
         }
     });

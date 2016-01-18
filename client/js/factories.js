@@ -86,7 +86,7 @@
                 var dfr = $q.defer();
                 $http.get(apiUrl.voteItem + '/' + voteId + '/' + memberId)
                     .then(function(res) {
-                        if (status.status !== 200) {
+                        if (res.status !== 200) {
                             dfr.resolve();
                         } else {
                             dfr.resolve(res.data);

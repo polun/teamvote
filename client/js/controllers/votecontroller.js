@@ -1,5 +1,5 @@
 (function() {
-    TeamVote.controller('VoteController', function($stateParams, $cookies, $location, Votes, VoteItems,
+    TeamVote.controller('VoteController', function($stateParams, $state, $cookies, $location, Votes, VoteItems,
         Members) {
 
         var vm = this,
@@ -21,7 +21,7 @@
         activate();
 
         function activate() {
-            $cookies.put(memberIdKey);
+            // $cookies.put(memberIdKey);
             if (!vm.member.id || !vm.member.name) {
                 $('#memberModal').modal('show');
             } else {
@@ -43,7 +43,9 @@
         function makeVote() {
             if (vm.choosenRestId && vm.member) {
                 VoteItems.post(voteId, vm.choosenRestId, vm.member.id).then(function(res) {
-                    console.log(res);
+                    $state.go('result', {
+                        voteId: voteId
+                    });
                 }, function(err) {
                     console.log(err);
                 });
@@ -70,10 +72,12 @@
         }
 
         function checkIsVoted() {
-            // TODO: Loading页面
             VoteItems.getByCondition(voteId, vm.member.id).then(function(data) {
+                console.log(data);
                 if (data) {
-                    $location.path('/result/zhang');
+                    $state.go('result', {
+                        voteId: voteId
+                    });
                 }
             }, function(err) {
                 console.log(err);

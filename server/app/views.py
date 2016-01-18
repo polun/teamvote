@@ -96,7 +96,7 @@ class VoteItem(Resource):
         statusCode = 200
         try:
             result = json.loads(
-                item.get(vote=voteId, member=memberId).to_json()), 200
+                item.get(vote=voteId, member=memberId).to_json())
         except DoesNotExist, e:
             statusCode = 204
 
