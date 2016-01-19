@@ -3,10 +3,20 @@
         <a href="#/design" class="btn btn-primary">添加</a>
         <hr>
         <table class="table table-responsive table-hover table-bordered">
-            <tr ng-repeat="vote in vm.votes">
-                <td><a href="#/result/{{vote._id.$oid}}">{{vote.title}}</a></td>
-                <td>2016年1月18日23:23</td>
-            </tr>
+            <thead>
+                <tr>
+                    <th>名称</th>
+                    <th>时间</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="vote in vm.votes">
+                    <td><a href="#/result/{{vote._id.$oid}}">{{vote.title}}</a></td>
+                    <td>2016年1月18日23:23</td>
+                    <td><a target="_blank" class="btn btn-primary" href="#/vote/{{vote._id.$oid}}">投票</a></td>
+                </tr>
+            </tbody>
         </table>
     </div>
 </div>

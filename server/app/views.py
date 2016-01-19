@@ -92,11 +92,15 @@ class VoteItem(Resource):
             return 'voteId或memberId不能为空', 400
 
         item = voteitem.VoteItem.objects()
-        result = None
+        result = {'isVoted': False, 'isVoted': []}
         statusCode = 200
         try:
-            result = json.loads(
+            tempResult = json.loads(
                 item.get(vote=voteId, member=memberId).to_json())
+            if tempResult:
+                result['voteResult'] = VoteResult.getResult(voteId)
+                result['isVoted'] = True
+
         except DoesNotExist, e:
             statusCode = 204
 
@@ -105,15 +109,12 @@ class VoteItem(Resource):
 
 class VoteResult(Resource):
 
-    def get(self, voteId):
+    @staticmethod
+    def getResult(voteId):
         def sortBySum(n):
             return -1 * n['sum']
 
-        if not voteId:
-            return '没有voteId', 400
-
         result = []
-        statusCode = 200
         try:
             aggregationRests = voteitem.VoteItem.objects.filter(vote=ObjectId(voteId)).aggregate(
                 {'$group': {'_id': '$rest', 'sum': {'$sum': 1}}})
@@ -125,11 +126,25 @@ class VoteResult(Resource):
             result = sorted(result, key=sortBySum)
 
         except DoesNotExist, e:
+            print e
+
+        return result
+
+    def get(self, voteId):
+
+        if not voteId:
+            return '没有voteId', 400
+
+        result = VoteResult.getResult(voteId)
+        statusCode = 200
+        if len(result) < 0:
             statusCode = 204
 
         return result, statusCode
 
+
 class AllVotes(Resource):
+
     def get(self):
         allVotes = json.loads(vote.Vote.objects().to_json())
         return allVotes, 200

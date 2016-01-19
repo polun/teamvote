@@ -67,7 +67,6 @@
             };
 
             function post(voteId, restId, memberId) {
-                console.log(voteId, restId, memberId);
                 var dfr = $q.defer();
                 $http.post(apiUrl.voteItem, {
                     voteId: voteId,
@@ -86,6 +85,7 @@
                 var dfr = $q.defer();
                 $http.get(apiUrl.voteItem + '/' + voteId + '/' + memberId)
                     .then(function(res) {
+                        console.log(res);
                         if (res.status !== 200) {
                             dfr.resolve();
                         } else {

@@ -51,8 +51,6 @@
                         chartData.push(data[i].sum);
                     }
 
-                    console.log(Math.ceil(length * 1.25));
-
                     vm.chartConfig.xAxis.categories = categories;
                     vm.chartConfig.yAxis.currentMax = Math.ceil(data[0].sum * 1.25);
                     vm.chartConfig.series[0].data = chartData;

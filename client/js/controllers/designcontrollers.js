@@ -1,5 +1,5 @@
 (function() {
-    TeamVote.controller('DesignController', function($timeout, $location, Rests, Votes) {
+    TeamVote.controller('DesignController', function($timeout, $location, $state, Rests, Votes) {
         var vm = this;
         vm.selectedRests = [];
         vm.name = null;
@@ -9,6 +9,7 @@
         vm.removeRest = removeRest;
         vm.newRest = newRest;
         vm.publish = publish;
+        vm.title = '';
 
         function activate() {
             Rests.get().then(function(res) {
@@ -57,8 +58,8 @@
                     return rest._id.$oid;
                 });
 
-                Votes.post(vm.title, selectedRestIds).then(function (res) {
-                    console.log(res);
+                Votes.post(vm.title, selectedRestIds).then(function(res) {
+                    $state.go('votes');
                 });
             } else {
                 showAlert('名称不能为空！')
