@@ -80,7 +80,7 @@
                 var categories = [],
                     chartData = [],
                     data = null;
-                if (res.isVoted) {
+                if (res&&res.isVoted) {
                     data = res.voteResult;
                     vm.showVoteChart = true;
                     vm.chartConfig = {
