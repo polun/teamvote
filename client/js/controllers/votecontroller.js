@@ -62,10 +62,11 @@
             var nickname = $('#recipient-name').val();
 
             Members.get(nickname).then(function(res) {
+                console.log(res);
                 if (res.data) {
                     vm.member = {
-                        id: res.data.member._id.$oid,
-                        name: res.data.member.name
+                        id: res.data._id.$oid,
+                        name: res.data.name
                     };
                     $cookies.put(memberIdKey, vm.member.id);
                     $cookies.put(memberNameKey, vm.member.name);

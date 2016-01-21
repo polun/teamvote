@@ -81,8 +81,14 @@ class Member(Resource):
         if not nickname:
             return {}, 400
 
-        mem = member.Member.objects().get(nickname=nickname).to_json()
-        return {'member': json.loads(mem)}
+        result = None
+        statusCode = 200
+
+        try:
+            result = member.Member.objects().get(nickname=nickname).to_json()
+        except DoesNotExist, e:
+            statusCode = 204
+        return json.loads(result), statusCode
 
 
 class VoteItem(Resource):
