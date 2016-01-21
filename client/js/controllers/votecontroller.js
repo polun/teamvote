@@ -62,7 +62,6 @@
             var nickname = $('#recipient-name').val();
 
             Members.get(nickname).then(function(res) {
-                console.log(res);
                 if (res.data) {
                     vm.member = {
                         id: res.data._id.$oid,
@@ -72,7 +71,9 @@
                     $cookies.put(memberNameKey, vm.member.name);
                     $('#memberModal').modal('hide');
                     checkIsVoted();
-                };
+                } else {
+                    alert('用户名不对');
+                }
             });
         }
 
