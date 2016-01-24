@@ -10,6 +10,7 @@
 
         vm.showVoteChart = false;
         vm.showVote = false;
+        vm.authMsg = undefined; // 认证信息
 
         vm.member = {
             id: $cookies.get(memberIdKey),
@@ -64,14 +65,16 @@
             Members.get(nickname).then(function(res) {
                 if (res.data) {
                     vm.member = {
-                        id: res.data.member._id.$oid,
-                        name: res.data.member.name
+                        id: res.data._id.$oid,
+                        name: res.data.name
                     };
                     $cookies.put(memberIdKey, vm.member.id);
                     $cookies.put(memberNameKey, vm.member.name);
                     $('#memberModal').modal('hide');
                     checkIsVoted();
-                };
+                } else {
+                    vm.authMsg = '昵称写错了吧';
+                }
             });
         }
 

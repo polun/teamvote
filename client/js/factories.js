@@ -116,9 +116,10 @@
             return {
                 get: function(nickname) {
                     var dfr = $q.defer();
-                    $http.get(apiUrl.member + '/' + nickname, {}).then(function(res) {
+                    $http.get(apiUrl.member + '/' + nickname).then(function(res) {
                         dfr.resolve(res);
                     }, function(err) {
+                        console.log(err);
                         dfr.reject(err);
                     });
 

@@ -26,6 +26,7 @@
                 <div class="form-group">
                     <input type="text" class="form-control" id="recipient-name">
                 </div>
+                <div ng-if="vm.authMsg" class="alert alert-danger" role="alert">{{ vm.authMsg }}:-D</div>
             </div>
             <div class="modal-footer">
                 <button ng-click="vm.enterNickname()" type="button" class="btn btn-primary">确定</button>

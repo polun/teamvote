@@ -79,10 +79,17 @@ class Member(Resource):
 
     def get(self, nickname):
         if not nickname:
-            return {}, 400
+            return '昵称不能为空', 400
 
-        mem = member.Member.objects().get(nickname=nickname).to_json()
-        return {'member': json.loads(mem)}
+        result = None
+        statusCode = 200
+        try:
+            mem = member.Member.objects().get(nickname=nickname).to_json()
+            result = json.loads(mem)
+        except DoesNotExist, e:
+            statusCode = 204
+
+        return result, statusCode
 
 
 class VoteItem(Resource):
