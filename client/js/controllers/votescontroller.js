@@ -7,6 +7,7 @@
 
         function activate() {
             Votes.getAll().then(function(data) {
+                console.log(data);
                 if (data) {
                     vm.votes = data;
                 }

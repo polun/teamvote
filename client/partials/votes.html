@@ -13,7 +13,7 @@
             <tbody>
                 <tr ng-repeat="vote in vm.votes">
                     <td><a href="#/result/{{vote._id.$oid}}">{{vote.title}}</a></td>
-                    <td>2016年1月18日23:23</td>
+                    <td>{{vote.createtime.$date | date:"yyyy年M月d日 H:mm:ss"}}</td>
                     <td><a target="_blank" class="btn btn-primary" href="#/vote/{{vote._id.$oid}}">投票</a></td>
                 </tr>
             </tbody>

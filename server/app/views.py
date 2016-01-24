@@ -146,7 +146,8 @@ class VoteResult(Resource):
 class AllVotes(Resource):
 
     def get(self):
-        allVotes = json.loads(vote.Vote.objects().to_json())
+        allVotes = json.loads(
+            vote.Vote.objects().order_by('-createtime').to_json())
         return allVotes, 200
 
 api.add_resource(Rests, '/api/v1/rests')
