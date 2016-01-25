@@ -1,7 +1,6 @@
 (function() {
-    TeamVote.controller('VoteController', function($stateParams, $state, $cookies, $location,
-        Votes, VoteItems,
-        Members) {
+    TeamVote.controller('VoteController', function($stateParams, $state, $cookies,
+        Votes, VoteItems, Members) {
 
         var vm = this,
             memberIdKey = 'memberId',
@@ -22,6 +21,7 @@
         vm.chooseRest = chooseRest;
         vm.makeVote = makeVote;
         vm.enterNickname = enterNickname;
+        vm.logout = logout;
 
         activate();
 
@@ -83,7 +83,7 @@
                 var categories = [],
                     chartData = [],
                     data = null;
-                if (res&&res.isVoted) {
+                if (res && res.isVoted) {
                     data = res.voteResult;
                     vm.showVoteChart = true;
                     vm.chartConfig = {
@@ -137,6 +137,13 @@
             }, function(err) {
                 console.log(err);
             });
+        }
+
+        function logout() {
+            if (confirm('确定注销？')) {
+                $cookies.put(memberIdKey);
+                $state.go('index');
+            };
         }
     });
 })();

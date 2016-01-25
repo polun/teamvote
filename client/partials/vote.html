@@ -6,7 +6,10 @@
     </div>
     <div class="row" ng-if="vm.showVote">
         <div class="col-md-12">
-            <h4>{{ vm.vote.title }} | <span class="badge">{{ vm.member.name }}</span></h4>
+            <h4>
+                {{ vm.vote.title }} | <span class="badge">{{ vm.member.name }}</span> |
+                <span class="badge cursor" ng-click="vm.logout()">注销</span>
+            </h4>
             <div class="radio" ng-repeat='candidate in vm.vote.candidaterests'>
                 <label>
                     <input type="radio" name="optradio" ng-click="vm.chooseRest(candidate._id.$oid)">{{ candidate.name }}</label>
