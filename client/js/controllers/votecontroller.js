@@ -26,7 +26,6 @@
         activate();
 
         function activate() {
-            // $cookies.put(memberIdKey);
             if (!vm.member.id || !vm.member.name) {
                 $('#memberModal').modal('show');
             } else {
@@ -63,13 +62,15 @@
             var nickname = $('#recipient-name').val();
 
             Members.get(nickname).then(function(res) {
+                var expireDate = new Date();
+                expireDate.setDate(expireDate.getDate() + 10);
                 if (res.data) {
                     vm.member = {
                         id: res.data._id.$oid,
                         name: res.data.name
                     };
-                    $cookies.put(memberIdKey, vm.member.id);
-                    $cookies.put(memberNameKey, vm.member.name);
+                    $cookies.put(memberIdKey, vm.member.id, {'expires': expireDate});
+                    $cookies.put(memberNameKey, vm.member.name, {'expires': expireDate});
                     $('#memberModal').modal('hide');
                     checkIsVoted();
                 } else {
