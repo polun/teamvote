@@ -1,6 +1,11 @@
 (function(argument) {
-    var baseUrl = 'http://192.168.1.26:5000/api/v1/'
+    var baseUrl = 'http://127.0.0.1:5000/api/v1/'
     TeamVote.constant('apiUrl', {
-        rests: baseUrl + 'rests'
+        rests: baseUrl + 'rests',
+        votes: baseUrl + 'votes',
+        voteItem: baseUrl + 'voteitem',
+        member: baseUrl + 'member',
+        voteResult: baseUrl + 'voteresult',
+        allVotes: baseUrl + 'allvotes'
     });
 })();

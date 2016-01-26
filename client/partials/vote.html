@@ -1,4 +1,39 @@
 <div class="jumbotron">
-    测试
-    <a href="#/design">设计</a>
+    <div class="row" ng-if="vm.showVoteChart">
+        <div class="col-md-12">
+            <highchart id="result-chart" config="vm.chartConfig"></highchart>
+        </div>
+    </div>
+    <div class="row" ng-if="vm.showVote">
+        <div class="col-md-12">
+            <h4>
+                {{ vm.vote.title }} | <span class="badge">{{ vm.member.name }}</span> |
+                <span class="badge cursor" ng-click="vm.logout()">注销</span>
+            </h4>
+            <div class="radio" ng-repeat='candidate in vm.vote.candidaterests'>
+                <label>
+                    <input type="radio" name="optradio" ng-click="vm.chooseRest(candidate._id.$oid)">{{ candidate.name }}</label>
+            </div>
+            <button class="btn btn-primary" ng-click="vm.makeVote()">投票</button>
+        </div>
+    </div>
+</div>
+<div id="memberModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">请输入您的代号</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <input type="text" class="form-control" id="recipient-name">
+                </div>
+                <div ng-if="vm.authMsg" class="alert alert-danger" role="alert">{{ vm.authMsg }}:-D</div>
+            </div>
+            <div class="modal-footer">
+                <button ng-click="vm.enterNickname()" type="button" class="btn btn-primary">确定</button>
+            </div>
+        </div>
+    </div>
 </div>
